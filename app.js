@@ -22,16 +22,28 @@ app.use(express.urlencoded({ extended: true }))
 app.post('/', (req, res) => {
 
     const createUser = async() => {
-        const user = new User({ name: req.body.name, age: req.body.age })
-        const result = await user.save()
-        console.log(result)
-        res.send(result)
+        try {
+            const user = new User(req.body)
+            const result = await user.save()
+            console.log(result)
+            res.send(result)
 
-        // res.send(req.body)
+        } catch (err) {
+            console.log(err.message)
+        }
     }
 
     createUser()
 
+})
+
+app.get('/fetch', (req, res) => {
+    User.find({})
+        .then(result => {
+            res.send(result)
+        }).catch(err => {
+            console.log(err.message)
+        })
 })
 
 app.listen(port, () => {
