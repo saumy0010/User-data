@@ -40,6 +40,9 @@ app.post('/', (req, res) => {
 app.get('/fetch', (req, res) => {
     User.find({})
         .then(result => {
+            result.forEach(user => {
+                console.log(user.name)
+            })
             res.send(result)
         }).catch(err => {
             console.log(err.message)
